@@ -11,7 +11,7 @@ apache_vhosts_template: "vhosts.conf.j2"
 
 # On Debian/Ubuntu, a default virtualhost is included in Apache's configuration.
 # Set this to `true` to remove that default.
-apache_remove_default_vhost: false
+apache_remove_default_vhost: true
 
 apache_global_vhost_settings: |
   DirectoryIndex index.php index.html
@@ -37,14 +37,35 @@ apache_vhosts_ssl: []
 
 apache_ignore_missing_ssl_certificate: true
 
-apache_ssl_protocol: "All -SSLv2 -SSLv3"
+apache_ssl_protocol: "All -SSLv3"
 apache_ssl_cipher_suite: "AES256+EECDH:AES256+EDH"
 
 # Only used on Debian/Ubuntu.
 apache_mods_enabled:
   - rewrite.load
   - ssl.load
-apache_mods_disabled: []
+  - unique_id.load
+  - usertrack.load
+  - session.load
+  - core.load
+  - http.load
+  - so.load
+  - mpm_prefork.load
+  - session_crypto.load
+  - reqtimeout.load
+  - log_config.load
+  
+  
+apache_mods_disabled: 
+  - dav_module
+  - dav_fs_module
+  - dav_lock_module
+  - proxy_module
+  - proxy_ajp_module
+  - proxy_balancer_module
+  - proxy_ftp_module
+  - proxy_http_module
+  - proxy_connect_module
 
 # Set initial apache state. Recommended values: `started` or `stopped`
 apache_state: started
@@ -56,3 +77,6 @@ apache_restart_state: restarted
 # Apache package state; use `present` to make sure it's installed, or `latest`
 # if you want to upgrade or switch versions using a new repo.
 apache_packages_state: present
+
+
+
